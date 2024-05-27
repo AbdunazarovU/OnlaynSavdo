@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{%  block title %}
+    {% if user.is_authenticated %}
+        Welcome {{user.username}}
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <div class="content-header">
+            {% if user.is_agent %}
+                <h1>Welcome agent {{user.username}}!</h1>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'contact-with-client-page' %}">contact with clients</a>
+                        <span class="badge bg-primary rounded-pill">{{contact_with_cilent_count}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'announcment_to_be_published' %}">chop etilishi kerak bo'lgan e'lonlar</a>
+                        <span class="badge bg-primary rounded-pill">{{new_announcment_publish_count}}</span>
+                    </li>
+                </ul>
+            {% else %}
+                <h1>Welcome {{user.username}}!</h1>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'create_post' %}">E'lon berish</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="site-section site-section-sm bg-light">
+            <div class="container">
+                {% include 'posts.html' %}
+                {% include 'pagination.html' %}
+            </div>
+        </div>
+    {% else %}
+        <h1>You are not login</h1>
+    {% endif %}
+</div>
+{% endblock %}
